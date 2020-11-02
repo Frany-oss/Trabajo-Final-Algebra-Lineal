@@ -3,6 +3,8 @@
 - Francesco Bassino
 - Renzo Mondragón
 - Renzo Damián
+- Randy Mayo
+- Sergio 
 ## Objetivo
 rellenar.....
 ## Requerimientos:
