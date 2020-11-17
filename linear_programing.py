@@ -1,3 +1,5 @@
+from matplotlib import pyplot
+
 def extract_eq(eq_str):
     
     eq_str = eq_str.split()
@@ -199,5 +201,6 @@ def linearp():
     pyplot.title("Gráfica de las indecuaciones")
     print("El máximo posible es:{} , en las coordenadas {}".format(max_obj,max_coord))
     print("El mínimo posible es:{} , en las coordenadas {}".format(min_obj,min_coord))
+    pyplot.show()
     return m,i
     
