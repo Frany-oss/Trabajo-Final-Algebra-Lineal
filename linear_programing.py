@@ -195,13 +195,12 @@ def linearp():
     graph_inec(ineq,ineq_r,ineq_s)
     interX,interY , inter = graph_inter(ineq,ineq_r)
     inter = comprobar_region(ineq,ineq_r,ineq_s,inter)
-    max_obj, max_coord = min_obj(f_obj,inter)
-    min_obj, min_coord = max_obj(f_obj,inter)
+    mi_obj, max_coord = min_obj(f_obj,inter)
+    ma_obj, min_coord = max_obj(f_obj,inter)
     pyplot.title("Gráfica de las indecuaciones")
-    print("El máximo posible es:{} , en las coordenadas {}".format(max_obj,max_coord))
-    print("El mínimo posible es:{} , en las coordenadas {}".format(min_obj,min_coord))
+    print("El máximo posible es:{} , en las coordenadas {}".format(ma_obj,max_coord))
+    print("El mínimo posible es:{} , en las coordenadas {}".format(mi_obj,min_coord))
     pyplot.show()
-    return m,i
 
 
 if __name__ == "__main__":
