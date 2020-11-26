@@ -14,7 +14,6 @@ import extract as ext
 primeraVez = True
 listaInecuaciones = []
 
-
 # ----------- FUNCIONES ------------------------------------------------------------------------------
 def startLP():
     # Desactivar la escritura del Textbox funcion objetivo
@@ -30,7 +29,8 @@ def generarGrafico(xAxis, yAxis):
     # Graph
     figure = Figure(figsize=(4,3),dpi=100) 
     subplot = figure.add_subplot(111) 
-    subplot.plot(xAxis,yAxis) 
+    subplot.plot(xAxis,yAxis) # primera curva 
+    subplot.plot(yAxis,xAxis) # segunda curva 
     graph = FigureCanvasTkAgg(figure, master=window)
     graph.get_tk_widget().grid(row=0, column=1)
     
@@ -38,7 +38,6 @@ def generarGrafico(xAxis, yAxis):
     toolbar = tk.Frame(master=window)
     toolbar.grid(row=1,column=1)
     NavigationToolbar2Tk(graph, toolbar)
-    #canvas.create_window(370, 370, window=toolbarFrame)
 
 
 
@@ -67,30 +66,36 @@ def addInecuation():
         yAxis = list(range(10))
         generarGrafico(xAxis,yAxis)
 
-
+        # MAS MAS MAS
     pass
 
 def reset():
     global graph, toolbar, primeraVez, listaInecuaciones
-
+    
+    # Limpiar textbox de funcion objetivo
     textboxFunc.configure(state="normal")
     textboxFunc.delete(0,"end")
     textboxFunc.insert(0, "Ejemplo: ax + by")
 
+    # Limpiar textbox de inecuaciones
+    textboxAdd.delete(0,"end")
     textboxAdd.insert(0,"Ejemplo: 2x+3y<=4")
 
+    # Limpiar cuadro list de inecuaciones
     cuadroIneq.configure(state="normal")
     cuadroIneq.delete("1.0",tk.END)
     cuadroIneq.configure(state="disable")
 
+    # Limpiar la lista de inecuaciones
     listaInecuaciones.clear()
 
+    # Remover los graficos y la barra de herramientas
     if not primeraVez:
             graph.get_tk_widget().grid_remove()
             toolbar.grid_remove()
 
+    # Reiniciar la primera vez
     primeraVez = True
-    pass
 
 
 # ----------- PROGRAMA ------------------------------------------------------------------------------
@@ -100,44 +105,44 @@ window.title("Programacion Lineal")
 window.config(bg="SystemButtonFace")
 
 #Canvas
-canvas = tk.Canvas(window, width=200, height=400)
+canvas = tk.Canvas(window, width=250, height=500)
 canvas.grid() # .pack()
 
 # Etiqueta Funcion Objetivo
 labelFunc = tk.Label(window, text="Ingrese funcion objetivo:")
-labelFunc.config(font=("Consolas",10))
-canvas.create_window(95, 10, window=labelFunc)
+labelFunc.config(font=("Consolas",13))
+canvas.create_window(125, 10, window=labelFunc)
 
 # Textbox Funcion Objetivo
-textboxFunc = ttk.Entry(window, justify=tk.CENTER, font=("Consolas",10))
+textboxFunc = ttk.Entry(window, justify=tk.CENTER, font=("Consolas",13))
 textboxFunc.insert(0, "Ejemplo: ax + by")
-canvas.create_window(95, 35, window=textboxFunc)
+canvas.create_window(125, 35, window=textboxFunc)
 
 # Boton Estabecer Funcion Objetivo
-buttonSet = tk.Button(window, text="Establecer",command=startLP, bg='palegreen', font=("Consolas",10)) 
-canvas.create_window(95, 65, window=buttonSet)
+buttonSet = tk.Button(window, text="Establecer",command=startLP, bg='palegreen', font=("Consolas",13)) 
+canvas.create_window(125, 70, window=buttonSet)
 
 # Etiqueta Inecuaciones
 labelAdd = tk.Label(window, text="Ingrese inecuaciones:")
-labelAdd.config(font=("Consolas",10))
-canvas.create_window(95, 105, window=labelAdd)
+labelAdd.config(font=("Consolas",13))
+canvas.create_window(125, 105, window=labelAdd)
 
 # Textbox Añadir Inecuacion
-textboxAdd = ttk.Entry(window, justify=tk.CENTER, font=("Consolas",10))
+textboxAdd = ttk.Entry(window, justify=tk.CENTER, font=("Consolas",13))
 textboxAdd.insert(0, "Ejemplo: 2x+3y<=4")
-canvas.create_window(95, 130, window=textboxAdd)
+canvas.create_window(125, 130, window=textboxAdd)
 
 # Boton Añadir Inecuacion
-buttonAdd = tk.Button(window, text="Añadir",command=addInecuation, bg='palegreen', font=("Consolas",10)) 
-canvas.create_window(95, 160, window=buttonAdd)
+buttonAdd = tk.Button(window, text="Añadir",command=addInecuation, bg='palegreen', font=("Consolas",13)) 
+canvas.create_window(125, 165, window=buttonAdd)
 
 # Text Widget Lista de Inecuaciones
-cuadroIneq = tk.Text(window, width=19, height=11, padx=5, pady=5,bg='SystemButtonFace', font=("Consolas",10),state="disable")
-canvas.create_window(95, 270, window=cuadroIneq)
+cuadroIneq = tk.Text(window, width=19, height=11, padx=5, pady=5,bg='SystemButtonFace', font=("Consolas",13),state="disable")
+canvas.create_window(125, 320, window=cuadroIneq)
 
 # Boton Reiniciar
-buttonAdd = tk.Button(window, text="Reiniciar",command=reset, bg='pink', font=("Consolas",10)) 
-canvas.create_window(95, 385, window=buttonAdd)
+buttonAdd = tk.Button(window, text="Reiniciar",command=reset, bg='pink', font=("Consolas",13)) 
+canvas.create_window(125, 475, window=buttonAdd)
 
 # Loop Principal
 window.mainloop()
