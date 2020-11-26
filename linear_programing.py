@@ -1,7 +1,6 @@
 from matplotlib import pyplot
 
 def extract_eq(eq_str):
-    
     eq_str = eq_str.split()
     #print(eq_str)
     a = 0
@@ -181,6 +180,7 @@ def max_obj(obj,inter):
             maximo = m
             intersect = [i[0],i[1]]
     return maximo,intersect
+
 def min_obj(obj,inter):
     minimo = 100000000
     for i in inter:
@@ -189,7 +189,6 @@ def min_obj(obj,inter):
             minimo = m
             intersect = [i[0],i[1]]
     return minimo,intersect
-
 
 def linearp():
     f_obj , ineq , ineq_s ,ineq_r = input_data()
@@ -203,4 +202,7 @@ def linearp():
     print("El mínimo posible es:{} , en las coordenadas {}".format(min_obj,min_coord))
     pyplot.show()
     return m,i
-    
+
+
+if __name__ == "__main__":
+    linearp()
