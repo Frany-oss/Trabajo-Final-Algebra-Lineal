@@ -49,7 +49,7 @@ def generarGrafico():
 
 	# Graficar cada curva
 	for i in range(len(inecuacionesLista)):
-		subplot.plot(curvas[i][0],curvas[i][1],label=inecuacionesLista[i])
+		subplot.plot(curvas[i][0], curvas[i][1], '--', label=inecuacionesLista[i])
 
 	# Configuracion del subplot
 	subplot.legend()
