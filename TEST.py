@@ -1,44 +1,42 @@
+import extract as ext
 import numpy as np
 import matplotlib.pyplot as plt
-from sympy.solvers import solve
-from sympy import Symbol
 
-def f1(x):
-    return 5.0*x-2.0
-def f2(x):
-    return 0.4*x+2.25
-def f3(x):
-    return -0.25*x+7.0
 
-# Ver donde se intersectan las funciones
-x = Symbol('x')
-x1, =  solve(f1(x)-f2(x))
-x2, =  solve(f1(x)-f3(x))
-x3, =  solve(f2(x)-f3(x))
-y1 = f1(x1)
-y2 = f1(x2)
-y3 = f2(x3)
+figure = plt.figure(figsize=(5,4),dpi=100) 
+subplot = figure.add_subplot(111)
 
-# Graficar los puntos de interseccion
-plt.plot(x1,f1(x1),'go',markersize=10)
-plt.plot(x2,f1(x2),'go',markersize=10)
-plt.plot(x3,f2(x3),'go',markersize=10)
+inequations = ["y >= x","x <= 30", "y <= 20", "y <= 2x" ]
+parameters = []
+curves = []
+
+
+for i in inequations:
+	x, y, r, s = ext.stripIneq(i)
+	parameters.append([x,y,r,s])
+	xr, yr = ext.generateLine(x,y,r)
+	curves.append([xr,yr])
+
+intersections = ext.findIntersections(parameters)
+
+
+#idx = np.argwhere(np.diff(np.sign(curves[0][1] - curves[1][1]))).flatten()
+#plt.plot(curves[0][0][idx], curves[0][1][idx], 'ro')
+
+# Graficar
+for idx, i in enumerate(curves):
+	subplot.plot(i[0],i[1],'--',label=inequations[idx])
+
+# Graficar puntos
+for i in intersections:
+	plt.plot(i[0],i[1],color='black', marker='o',markersize=6)
 
 # Rellenar el poligono formado por los puntos de interseccion
-plt.fill([x1,x2,x3,x1],[y1,y2,y3,y1],'red',alpha=0.5)
+# plt.fill([x1,x2,x3,x1],[y1,y2,y3,y1],'red',alpha=0.5)
 
-# Generar los valores para el eje x, y
-xr = np.linspace(0,10,100)
-y1r = f1(xr)
-y2r = f2(xr)
-y3r = f3(xr)
 
-# Graficar las curvas con delineado
-plt.plot(xr,y1r,'k--')
-plt.plot(xr,y2r,'k--')
-plt.plot(xr,y3r,'k--')
+subplot.set_xlim(-5,70)
+subplot.set_ylim(-5,70)
 
-# Configuracion de plot
-plt.xlim(0.5,9)
-plt.ylim(2,8)
+plt.legend()
 plt.show()

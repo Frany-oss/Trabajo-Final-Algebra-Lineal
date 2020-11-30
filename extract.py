@@ -1,28 +1,17 @@
 import random as rnd
 import numpy as np
 
-def getRandomCurve(lenght,variance=50):
-	randi = rnd.randint(1,variance)/variance
-	a = list(range(lenght+1)) 
-	b = list(a)
-	for i in range(lenght+1):
-		b[i] = (randi*i)
-	return [a, b]
+def stripString(text):
+	# Revisar si el string esta vacio
+	x = text[0]
 
-def getXAndY(text):
-	text = text.replace(" ", "")
-	idx = text.find("x")
-	idy = text.find("y")
-	x = int(text[0:idx])
-	y = int(text[idx+1:idy])
-	return x, y
-
-def stripIneq(text):
 	# Quitar los espacios
 	text = text.replace(" ", "")
+
 	# Obtener la posicion del <, > o =
 	idr = max(text.find("<"), text.find(">"), text.find("="))
 	x, y, r = 0, 0, 0
+
 	# Obtener x si esta presente
 	if (idx:=text.find("x")) >= 0:
 		start = max(text[:idx].rfind("y"),
@@ -32,8 +21,9 @@ def stripIneq(text):
 		x = text[start+1:idx]
 		if x == "" or x == "+": x = 1
 		if x == "-": x = -1
-		if idx > idr: x = -1 * int(x)
+		if idx > idr and idr != -1: x = -1 * int(x)
 		else: x = int(x)
+
 	# Obtener y si esta presente
 	if (idy:=text.find("y")) >= 0:
 		start = max(text[:idy].rfind("x"),
@@ -43,27 +33,50 @@ def stripIneq(text):
 		y = text[start+1:idy]
 		if y == "" or y == "+": y = 1
 		if y == "-": y = -1
-		if idy > idr: y = -1 * int(y)
+		if idy > idr and idr != -1: y = -1 * int(y)
 		else: y = int(y)
+
 	# Obtener la respuesta
 	if idr > idx and idr > idy:
 		r = int(text[idr+1:])
+
 	# Obtener la orientacion # 0 Menor"<" | 1 Mayor">"
-	#s = int(text.find(">")>0)
+	s = int(text.find(">")>0)
+
 	# Obtener si hay igual o no # 0 No | 1 Si
 	#e = max(0,int(text.find("=")>0))
-	return x, y, r #,s,e
 
-def generateCurve(x, y, r):
-	xr = np.linspace(-50,50,50)
-	yr = np.linspace(-50,50,50)
+	return x, y, r ,s #,e
+
+def generateLine(x, y, r, minVal=-300, maxVal=300):
+	xr = np.linspace(minVal, maxVal, 20)
+	yr = np.linspace(minVal, maxVal, 20)
 	if x == 0 and y != 0:
-		yr = np.repeat(r, 50)
-	if y == 0 and x != 0:
-		xr = np.repeat(r, 50)
+		# En el caso de que se tenga que graficar una linea horizontal
+		yr = np.repeat(r, 20)
+	elif y == 0 and x != 0:
+		# En el caso de que se tenga que graficar una linea vertical
+		xr = np.repeat(r, 20)
 	else:
+		# Graficar la recta normalmente
 		yr = (r-x*xr)/y
 	return xr, yr
+
+def findIntersections(parameters):
+	intersections = set()
+	for i in parameters:
+		for j in parameters:
+			if i != j:
+				x1, y1, r1, _ = i
+				x2, y2, r2, _ = j
+				try:
+					# Se igualan las ecuaciones para hallar las intersecciones
+					xr = (r1*y2 - r2*y1)/(x1*y2 - x2*y1)
+					yr = (r1*x2 - r2*x1)/(y1*x2 - y2*x1)
+					intersections.add((xr,yr))
+				except:
+					pass
+	return list(intersections)
 
 if __name__ == "__main__":
 	ejemplos = ["2x + 3y <= 9",
@@ -83,4 +96,4 @@ if __name__ == "__main__":
 	]
 
 	for i in ejemplos:
-		print("---------\n",i,": \n",stripIneq(i),sep="")
+		print("---------\n",i,": \n",stripString(i),sep="")
