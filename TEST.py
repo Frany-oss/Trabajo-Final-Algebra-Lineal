@@ -22,8 +22,9 @@ intersections = ext.findIntersections(parameters)
 # Obtener coordenadas aprobadas
 polygon = ext.getPolygon(parameters, intersections)
 
-plt.fill(polygon[0],polygon[1],'red',alpha=0.5)
+print(polygon)
 
+plt.fill(polygon[0],polygon[1],'red',alpha=0.5)
 
 # Graficar
 for idx, i in enumerate(curves):
@@ -33,12 +34,15 @@ for idx, i in enumerate(curves):
 for i in intersections:
 	plt.plot(i[0],i[1],color='black', marker='o',markersize=6)
 
-#subplot.set_xlim(-5,70)
-#subplot.set_ylim(-5,70)
+
+xAxis, yAxis = ext.getMargins(intersections)
+subplot.set_xlim(-5,xAxis)
+subplot.set_ylim(-5,yAxis)
 subplot.spines['left'].set_position('zero')
 subplot.spines['right'].set_color('none')
 subplot.spines['bottom'].set_position('zero')
 subplot.spines['top'].set_color('none')
+
 
 plt.legend()
 plt.show()

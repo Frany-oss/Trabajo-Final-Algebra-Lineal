@@ -1,6 +1,7 @@
 import random as rnd
 import numpy as np
 
+
 def stripString(text):
 	# Revisar si el string esta vacio
 	x = text[0]
@@ -48,7 +49,8 @@ def stripString(text):
 
 	return x, y, r, s, e
 
-def generateLine(x, y, r, minVal = -300, maxVal = 300):
+
+def generateLine(x, y, r, minVal = -1000, maxVal = 1000):
 	xr = np.linspace(minVal, maxVal, 20)
 	yr = np.linspace(minVal, maxVal, 20)
 	if x == 0 and y != 0:
@@ -61,6 +63,7 @@ def generateLine(x, y, r, minVal = -300, maxVal = 300):
 		# Graficar la recta normalmente
 		yr = (r-x*xr)/y
 	return xr, yr
+
 
 def findIntersections(parameters):
 	# Se utiliza un set para evitar repeticiones
@@ -101,8 +104,9 @@ def findIntersections(parameters):
 	# Se devuelve el set convertido a lista
 	return list(intersections)
 
+
 def getPolygon(parameters, intersections):
-	polygonX, polygonY = [], []
+	polygon = []
 
 	# Se evalua cada punto de interseccion
 	for x, y in intersections:
@@ -123,13 +127,71 @@ def getPolygon(parameters, intersections):
 
 		# Si cumple con todas las inecuaciones, se agrega
 		if check == len(parameters):
-			polygonX.append(x)
-			polygonY.append(y)
+			polygon.append((x,y))
 
-	return [polygonX, polygonY]
+	# Ordenar las coordenadas para que sean graficadas correctamente
+	polygon.sort()
+
+	# Dividir el poligono en 2 listas para poder graficar con la funcion plt.fill
+	xAux, yAux = [], []
+	for i in polygon:
+		xAux.append(i[0])
+		yAux.append(i[1])
+	polygon = [xAux, yAux]
+
+	return polygon
+
+
+def getAnswer(ObjFunction, polygon):
+	mini, maxi = 1e9, 0
+	maxResult, minResult = [0]*3, [0]*3
+	
+	# Iterar por cada valor X y Y del poligono
+	for xi, yi in zip(polygon[0],polygon[1]):
+		result = ObjFunction[0]*xi + ObjFunction[1]*yi
+		
+		# Encontrar los valores minimos y maximos de la funcion objetivo
+		if result < mini:
+			minResult[0], minResult[1] = xi, yi
+			minResult[2], mini = result, result
+		if result > maxi:
+			maxResult[0], maxResult[1] = xi, yi
+			maxResult[2], maxi = result, result
+
+	return [minResult, maxResult]
+
+def formatAnswer(answer):
+	formattedAnswer = [0,0]
+
+	# Revisar si el cociente de Y es negativo o positivo
+	for i in range(len(answer)):
+		sign = ""
+		if answer[i][1] < 0:
+			sign = "-"
+		else:
+			sign = "+"
+
+		# Redondear a dos decimales 
+		formattedAnswer[i] = ("{}x ").format(round(answer[i][0],2)) + sign + (" {}y = {}").format(round(abs(answer[i][1]),2),round(answer[i][2],2))
+
+	return formattedAnswer
+
+def getMargins(intersections, pad = 15):
+	xMax, yMax = 0, 0
+
+	# Encontrar los valores mayores de cada eje
+	for i in intersections:
+		xMax = max(xMax, i[0])
+		yMax = max(yMax, i[1])
+
+	# Aplicar el margen pad o reemplazar por 20 si es 0
+	xMax = max(xMax+pad, 20)
+	yMax = max(yMax+pad, 20)
+
+	return xMax, yMax
 
 if __name__ == "__main__":
-	ejemplos = ["2x + 3y <= 9",
+	pruebas = ["2x + 3y <= 9",
 		"-2x - 4y > 4",
 		"x + y < 1",
 		"x > -9",
@@ -145,5 +207,5 @@ if __name__ == "__main__":
 		"y - x < 4"
 	]
 
-	for i in ejemplos:
+	for i in pruebas:
 		print("---------\n",i,": \n",stripString(i),sep="")
