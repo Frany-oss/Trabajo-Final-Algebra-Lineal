@@ -22,8 +22,6 @@ intersections = ext.findIntersections(parameters)
 # Obtener coordenadas aprobadas
 polygon = ext.getPolygon(parameters, intersections)
 
-print(polygon)
-
 plt.fill(polygon[0],polygon[1],'red',alpha=0.5)
 
 # Graficar
