@@ -34,15 +34,12 @@ toolbar.grid(row=1,column=1)
 NavigationToolbar2Tk(graph, toolbar)
 
 # Arreglos de las inecuaciones
-inecuacionesLista = []
-rectas = []
-parametros = []
-intersecciones = []
-funcionObjetivo = 0
+inecuacionesLista, rectas, parametros = [], [], []
+intersecciones, funcionObjetivo, poligono = [], [], []
 
 # Textos Default
-textoEjemploInecuacion = "Ejemplo: 2x-3y<=2"
-textoEjemploFuncionObjetivo = "Ejemplo: ax + by"
+textoEjemploInecuacion = "Ejemplo: 2x-1.5y<=2"
+textoEjemploFuncionObjetivo = "Ejemplo: 3x + 7y"
 
 # ----------- FUNCIONES ------------------------------------------------------------------------------
 def startLP():
@@ -50,8 +47,8 @@ def startLP():
 	entrada = textboxFunc.get()
 	try:
 		# Leer la funcion objetivo y guardar
-		xi, yi, _, _ = ext.stripString(entrada)
-		funcionObjetivo = (xi,yi)
+		xi, yi, _, _, _ = ext.stripString(entrada)
+		funcionObjetivo = [xi,yi]
 
 		# Desactivar la escritura del Textbox funcion objetivo
 		textboxFunc.configure(state="disabled")
@@ -72,8 +69,8 @@ def addInecuation():
 		inecuacionesLista.append(entrada)
 
 		# Agregar a la lista de parametros
-		xi, yi, ri, si = ext.stripString(entrada)
-		parametros.append([xi,yi,ri,si])
+		xi, yi, ri, si, ei = ext.stripString(entrada)
+		parametros.append([xi,yi,ri,si,ei])
 
 		# Agregar a la lista de lineas para graficas
 		curvai = ext.generateLine(xi,yi,ri)
@@ -98,7 +95,7 @@ def addInecuation():
 
 
 def generarGrafico():
-	global graph, toolbar, rectas, intersecciones
+	global graph, toolbar, rectas, intersecciones, poligono
 
 	# Reiniciar la gráfica
 	graph.get_tk_widget().grid_remove()
@@ -116,6 +113,10 @@ def generarGrafico():
 	# Graficar cada interseccion
 	for i in intersecciones:
 		plt.plot(i[0],i[1],color='black', marker='o',markersize=6)
+
+	# Graficar el poligono respuesta
+	poligono = ext.getPolygon(parametros, intersecciones)
+	plt.fill(poligono[0],poligono[1],'red',alpha=0.5)
 
 	# Configuracion del subplot
 	subplot.legend()

@@ -6,22 +6,24 @@ import matplotlib.pyplot as plt
 figure = plt.figure(figsize=(5,4),dpi=100) 
 subplot = figure.add_subplot(111)
 
-inequations = ["y >= x","x <= 30", "y <= 20", "y <= 2x" ]
+#inequations = ["y >= x","x <= 30", "y <= 20", "y <= 2x" ]
+inequations = ["0.33x + 0.16y <= 80", "0.33x + 0.5y <= 100" ]
 parameters = []
 curves = []
 
-
 for i in inequations:
-	x, y, r, s = ext.stripIneq(i)
-	parameters.append([x,y,r,s])
-	xr, yr = ext.generateLine(x,y,r)
+	x, y, r, s, e = ext.stripString(i)
+	parameters.append([x,y,r,s,e])
+	xr, yr = ext.generateLine(x,y,r,-1000,1000)
 	curves.append([xr,yr])
 
 intersections = ext.findIntersections(parameters)
 
+# Obtener coordenadas aprobadas
+polygon = ext.getPolygon(parameters, intersections)
 
-#idx = np.argwhere(np.diff(np.sign(curves[0][1] - curves[1][1]))).flatten()
-#plt.plot(curves[0][0][idx], curves[0][1][idx], 'ro')
+plt.fill(polygon[0],polygon[1],'red',alpha=0.5)
+
 
 # Graficar
 for idx, i in enumerate(curves):
@@ -31,12 +33,12 @@ for idx, i in enumerate(curves):
 for i in intersections:
 	plt.plot(i[0],i[1],color='black', marker='o',markersize=6)
 
-# Rellenar el poligono formado por los puntos de interseccion
-# plt.fill([x1,x2,x3,x1],[y1,y2,y3,y1],'red',alpha=0.5)
-
-
-subplot.set_xlim(-5,70)
-subplot.set_ylim(-5,70)
+#subplot.set_xlim(-5,70)
+#subplot.set_ylim(-5,70)
+subplot.spines['left'].set_position('zero')
+subplot.spines['right'].set_color('none')
+subplot.spines['bottom'].set_position('zero')
+subplot.spines['top'].set_color('none')
 
 plt.legend()
 plt.show()
