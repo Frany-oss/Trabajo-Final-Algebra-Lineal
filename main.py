@@ -5,8 +5,6 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.backends.backend_tkagg import NavigationToolbar2Tk
 
-
-import linear_programing as lp
 import extract as ext
 
 # ----------- GLOBALES ------------------------------------------------------------------------------
@@ -200,6 +198,11 @@ def reset():
 	inecuacionesLista.clear()   
 	rectas.clear()
 	parametros.clear()
+	intersecciones.clear()
+	funcionObjetivo.clear()
+	poligono.clear()
+	respuesta.clear()
+	respuestaFormateada.clear()
 
 	# Remover los graficos y la barra de herramientas
 	graph.get_tk_widget().grid_remove()
@@ -248,7 +251,7 @@ labelMin.config(font=("Consolas",13))
 canvas.create_window(150, 435, window=labelMin)
 
 # Textbox Añadir Funcion Objetiva Minima
-textboxMin = tk.Text(window, width=19, height=1, padx=3, pady=3,bg='SystemButtonFace', font=("Consolas",12), state="disable")
+textboxMin = tk.Text(window, width=23, height=1, padx=3, pady=3,bg='SystemButtonFace', font=("Consolas",12), state="disable")
 canvas.create_window(150, 460, window=textboxMin)
 
 # Etiqueta Maximo
@@ -257,7 +260,7 @@ labelMax.config(font=("Consolas",13))
 canvas.create_window(150, 490, window=labelMax)
 
 # Textbox Añadir Funcion Objetiva Maxima
-textboxMax = tk.Text(window, width=19, height=1, padx=3, pady=3,bg='SystemButtonFace', font=("Consolas",12), state="disable")
+textboxMax = tk.Text(window, width=23, height=1, padx=3, pady=3,bg='SystemButtonFace', font=("Consolas",12), state="disable")
 textboxMax.config(state="disabled")
 canvas.create_window(150, 515, window=textboxMax)
 

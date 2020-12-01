@@ -1,0 +1,72 @@
+Caso 1: [ Funciona ]
+FO: 250x + 200y
+y >= x
+x <= 30
+y <= 20
+y <= 2x
+
+Caso 2: [ Funciona ]
+FO: 15x + 10y
+0.33x + 0.5y <= 100
+0.33x + 0.167y <= 80
+
+Caso 3: [ Funciona ] [ El area por sombrear es todo lo exterior ]
+FO: 10x + 30y
+x + 5y >= 15
+5x + y >= 15
+
+Caso 4: [ Funciona ]
+FO: 0.08x + 0.1y
+x + y <= 700
+0.5x + 0.8y <= 500
+
+Caso 5: [ Funciona ]
+FO: 25x + 30y
+x + 1.5y <= 750
+1.5x + y <= 750
+
+Caso 6: [ Funciona ]
+FO: 150x + 120y
+x <= 30
+y <= 20
+y >= x
+y <= 2x
+
+Caso 7: [ Funciona ]
+FO: 20x + 30y
+y <= 225
+x + 2y <= 500
+2x + y <= 400
+
+Caso 8: [ Funciona ] [ No grafica bien ]
+FO: x + 1.2y
+x <= 75
+y <= 75
+6x + 8y >= 480
+x + 1.2y <= 120
+
+Caso 9: [ Funciona ][ No grafica bien ]
+FO: 1000x + 2000y
+x <= 6
+y <= 4
+y <= 2x
+2x + y >= 4
+
+Caso 10: [ Si Funciona ]
+FO: 15x + 10y
+0.33333x + 0.5y <= 100
+0.33333x + 0.16666y <= 80
+
+Caso 11: [ Si funciona ]
+FO: 120x + 80y
+x <= 40
+y <= 10
+20x + 10y <= 500
+
+Cuadrados no grafican bien:
+x <= 40
+y <= 10
+
+
+
+

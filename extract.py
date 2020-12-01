@@ -79,7 +79,10 @@ def findIntersections(parameters):
 					# Se igualan las ecuaciones para hallar las intersecciones
 					xr = (ri*yj - rj*yi)/(xi*yj - xj*yi)
 					yr = (ri*xj - rj*xi)/(yi*xj - yj*xi)
-					intersections.add((xr,yr))
+
+					# Evitar que hayan intersecciones negativas
+					if xr >= 0 and yr >= 0:
+						intersections.add((xr,yr))
 				except:
 					# Se ignora si existe una division por cero (error)
 					pass

@@ -7,7 +7,8 @@ figure = plt.figure(figsize=(5,4),dpi=100)
 subplot = figure.add_subplot(111)
 
 #inequations = ["y >= x","x <= 30", "y <= 20", "y <= 2x" ]
-inequations = ["0.33x + 0.16y <= 80", "0.33x + 0.5y <= 100" ]
+#inequations = ["0.33x + 0.16y <= 80", "0.33x + 0.5y <= 100" ]
+inequations = ["x <= 40", "y <= 10"]
 parameters = []
 curves = []
 
@@ -22,7 +23,16 @@ intersections = ext.findIntersections(parameters)
 # Obtener coordenadas aprobadas
 polygon = ext.getPolygon(parameters, intersections)
 
+
+def getLine(polygon):
+	visited = [0] * len(polygon[0])
+	pass
+
+
 plt.fill(polygon[0],polygon[1],'red',alpha=0.5)
+
+getLine(polygon)
+
 
 # Graficar
 for idx, i in enumerate(curves):
