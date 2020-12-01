@@ -133,6 +133,7 @@ def getPolygon(parameters, intersections):
 		if check == len(parameters):
 			polygon.append((x,y))
 
+	# Ordenar los vertices del poligono para su correcta graficacion con plt.fill
 	# Calcular el centroide del poligono
 	xPoints = [point[0] for point in polygon]
 	yPoints = [point[1] for point in polygon]

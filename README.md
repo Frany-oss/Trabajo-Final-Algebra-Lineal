@@ -1,7 +1,7 @@
 # Trabajo Final Algebra Lineal
 ## Links relevantes
- - [Informe hospedado en Google Docs](https://docs.google.com/document/d/1wz5lCcAEdkf4cIfsV82gmEK3bgVXXY48zGP8AFVADYE/edit?usp=sharing)
- - [Ejecutable .exe del programa Python]()
+ - [Informe del trabajo hospedado en Google Docs](https://docs.google.com/document/d/1wz5lCcAEdkf4cIfsV82gmEK3bgVXXY48zGP8AFVADYE/edit?usp=sharing)
+ - [Ejecutable .exe hospedado en Google Drive](https://drive.google.com/file/d/1PRfeLjhGZXkbmDHgWtPPS0xK5niuAhS6/view?usp=sharing)
 
 ## Integrantes
 - Francesco Bassino
