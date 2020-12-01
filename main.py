@@ -7,7 +7,7 @@ from matplotlib.backends.backend_tkagg import NavigationToolbar2Tk
 
 import extract as ext
 
-# ----------- GLOBALES ------------------------------------------------------------------------------
+# ----------- INICIAR TKINTER ------------------------------------------------------------------------------
 # Window (root)
 window = tk.Tk()
 window.title("Programacion Lineal")
@@ -30,6 +30,7 @@ toolbar = tk.Frame(master=window)
 toolbar.grid(row=1,column=1)
 NavigationToolbar2Tk(graph, toolbar)
 
+# ----------- GLOBALES ------------------------------------------------------------------------------
 # Arreglos de las inecuaciones
 inecuacionesLista, rectas, parametros = [], [], []
 intersecciones, funcionObjetivo, poligono = [], [], []
@@ -123,7 +124,7 @@ def generarGrafico():
 	# Obtener funcion objetivo
 	try:
 		respuesta = ext.getAnswer(funcionObjetivo,poligono)
-		respuestaFormateada = ext.formatAnswer(respuesta)
+		respuestaFormateada = ext.formatAnswer(funcionObjetivo,respuesta)
 
 		# Añadir el minimo al recuadro
 		textboxMin.config(state="normal")
@@ -210,7 +211,6 @@ def reset():
 
 
 # ----------- INTERFAZ ------------------------------------------------------------------------------
-
 # Etiqueta Funcion Objetivo
 labelFunc = tk.Label(window, text="Ingrese funcion objetivo:")
 labelFunc.config(font=("Consolas",15))
@@ -242,7 +242,7 @@ buttonAdd.config(state="disable")
 canvas.create_window(150, 195, window=buttonAdd)
 
 # Text Widget Lista de Inecuaciones
-cuadroIneq = tk.Text(window, width=19, height=8, padx=5, pady=5,bg='SystemButtonFace', font=("Consolas",15), state="disable")
+cuadroIneq = tk.Text(window, width=22, height=8, padx=5, pady=5,bg='SystemButtonFace', font=("Consolas",15), state="disable")
 canvas.create_window(150, 320, window=cuadroIneq)
 
 # Etiqueta Minimo
@@ -251,7 +251,7 @@ labelMin.config(font=("Consolas",13))
 canvas.create_window(150, 435, window=labelMin)
 
 # Textbox Añadir Funcion Objetiva Minima
-textboxMin = tk.Text(window, width=23, height=1, padx=3, pady=3,bg='SystemButtonFace', font=("Consolas",12), state="disable")
+textboxMin = tk.Text(window, width=32, height=1, padx=3, pady=3,bg='SystemButtonFace', font=("Consolas",11), state="disable")
 canvas.create_window(150, 460, window=textboxMin)
 
 # Etiqueta Maximo
@@ -260,7 +260,7 @@ labelMax.config(font=("Consolas",13))
 canvas.create_window(150, 490, window=labelMax)
 
 # Textbox Añadir Funcion Objetiva Maxima
-textboxMax = tk.Text(window, width=23, height=1, padx=3, pady=3,bg='SystemButtonFace', font=("Consolas",12), state="disable")
+textboxMax = tk.Text(window, width=32, height=1, padx=3, pady=3,bg='SystemButtonFace', font=("Consolas",11), state="disable")
 textboxMax.config(state="disabled")
 canvas.create_window(150, 515, window=textboxMax)
 

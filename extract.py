@@ -1,5 +1,6 @@
 import random as rnd
 import numpy as np
+import math
 
 
 def stripString(text):
@@ -132,47 +133,36 @@ def getPolygon(parameters, intersections):
 		if check == len(parameters):
 			polygon.append((x,y))
 
-	# Ordenar el arreglo de menor a mayor
-	polygon.sort()
+	# Calcular el centroide del poligono
+	xPoints = [point[0] for point in polygon]
+	yPoints = [point[1] for point in polygon]
+	centroX = sum(xPoints)/len(polygon)
+	centroY = sum(yPoints)/len(polygon)
 
-	# Ordenar las coordenadas para que sean graficadas correctamente
-	visited = [False] * len(polygon)
-	path = [polygon[0]]
-	visited[0] = True
-	while True:
-		if len(path) == len(polygon):
-			break
+	# Calcular el angulo relativo de cada punto con respecto al centro
+	angles = []
+	for i in polygon:
+		angle = math.atan2(i[1]-centroY,i[0]-centroX) + math.pi
+		angles.append((angle,i[0],i[1]))
 
-		mini, idx = 1e9, 0
-		start = path[-1]
-		for i in range(len(polygon)):
-			if not visited[i]:
-				x1,y1 = start
-				x2,y2 = polygon[i]
-				if (distance := ((x2-x1)**2 + (y2-y1)**2)**0.5) < mini:
-					mini = distance
-					idx = i
+	# Ordenar el arreglo segun el angulo
+	angles.sort()
 
-		visited[idx] = True
-		path.append(polygon[idx])
-
-	# Dividir el poligono en 2 listas para poder graficar con la funcion plt.fill
-	xAux, yAux = [], []
-	for i in path:
-		xAux.append(i[0])
-		yAux.append(i[1])
+	# Dividir la lista en dos para graficar con fill
+	xAux = [point[1] for point in angles]
+	yAux = [point[2] for point in angles]
 	polygon = [xAux, yAux]
 
 	return polygon
 
 
-def getAnswer(ObjFunction, polygon):
+def getAnswer(objFunction, polygon):
 	mini, maxi = 1e9, 0
 	maxResult, minResult = [0]*3, [0]*3
 	
 	# Iterar por cada valor X y Y del poligono
 	for xi, yi in zip(polygon[0],polygon[1]):
-		result = ObjFunction[0]*xi + ObjFunction[1]*yi
+		result = objFunction[0]*xi + objFunction[1]*yi
 		
 		# Encontrar los valores minimos y maximos de la funcion objetivo
 		if result < mini:
@@ -184,7 +174,7 @@ def getAnswer(ObjFunction, polygon):
 
 	return [minResult, maxResult]
 
-def formatAnswer(answer):
+def formatAnswer(objFunction, answer):
 	formattedAnswer = [0,0]
 
 	# Revisar si el cociente de Y es negativo o positivo
@@ -196,7 +186,7 @@ def formatAnswer(answer):
 			sign = "+"
 
 		# Redondear a dos decimales 
-		formattedAnswer[i] = ("{}x ").format(round(answer[i][0],2)) + sign + (" {}y = {}").format(round(abs(answer[i][1]),2),round(answer[i][2],2))
+		formattedAnswer[i] = ("{}*{} ").format(objFunction[0],round(answer[i][0],2)) + sign + (" {}*{} = {}").format(objFunction[1],round(abs(answer[i][1]),2),round(answer[i][2],2))
 
 	return formattedAnswer
 
