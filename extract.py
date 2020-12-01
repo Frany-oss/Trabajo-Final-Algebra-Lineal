@@ -132,12 +132,33 @@ def getPolygon(parameters, intersections):
 		if check == len(parameters):
 			polygon.append((x,y))
 
-	# Ordenar las coordenadas para que sean graficadas correctamente
+	# Ordenar el arreglo de menor a mayor
 	polygon.sort()
+
+	# Ordenar las coordenadas para que sean graficadas correctamente
+	visited = [False] * len(polygon)
+	path = [polygon[0]]
+	visited[0] = True
+	while True:
+		if len(path) == len(polygon):
+			break
+
+		mini, idx = 1e9, 0
+		start = path[-1]
+		for i in range(len(polygon)):
+			if not visited[i]:
+				x1,y1 = start
+				x2,y2 = polygon[i]
+				if (distance := ((x2-x1)**2 + (y2-y1)**2)**0.5) < mini:
+					mini = distance
+					idx = i
+
+		visited[idx] = True
+		path.append(polygon[idx])
 
 	# Dividir el poligono en 2 listas para poder graficar con la funcion plt.fill
 	xAux, yAux = [], []
-	for i in polygon:
+	for i in path:
 		xAux.append(i[0])
 		yAux.append(i[1])
 	polygon = [xAux, yAux]

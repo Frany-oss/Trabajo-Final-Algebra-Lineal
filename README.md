@@ -14,7 +14,7 @@ python3 main.py
 ```
 Escribir la funcion objetivo y las inecuaciones en la consola
 ## Grafico
-![](./img/graph_1.png)
+![](./doc/graph_1.png)
 
 
 ## Requerimientos:

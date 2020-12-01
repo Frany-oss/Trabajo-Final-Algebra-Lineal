@@ -15,7 +15,7 @@ window.config(bg="SystemButtonFace")
 
 # Canvas
 canvas = tk.Canvas(window, width=300, height=600)
-canvas.grid() # .pack()
+canvas.grid()
 
 # Figure
 figure = plt.figure(figsize=(5,4),dpi=130) 
@@ -109,15 +109,15 @@ def generarGrafico():
 	for i in range(len(inecuacionesLista)):
 		subplot.plot(rectas[i][0], rectas[i][1], '--', label=inecuacionesLista[i])
 
-	# Encontrar las intersecciones
+	# Encontrar las intersecciones y el poligono
 	intersecciones = ext.findIntersections(parametros)
-
-	# Graficar cada interseccion
-	for i in intersecciones:
-		plt.plot(i[0],i[1],color='black', marker='o',markersize=6)
-
-	# Graficar el poligono respuesta
 	poligono = ext.getPolygon(parametros, intersecciones)
+	
+	# Graficar los vertices del poligono
+	for i, j in zip(poligono[0],poligono[1]):
+		plt.plot(i,j,color='black', marker='o',markersize=6)
+
+	# Graficar el area del poligono
 	plt.fill(poligono[0],poligono[1],'red',alpha=0.5)
 
 	# Obtener funcion objetivo
